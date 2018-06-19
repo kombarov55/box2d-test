@@ -8,21 +8,21 @@ import com.badlogic.gdx.math.Vector2
 object UI {
 
     fun drawMouseInfo(batch: SpriteBatch, font: BitmapFont, sr: ShapeRenderer, screenCoords: Vector2, worldCoords: Vector2) {
+        val rectWidth = 200f
+        val rectHeight = 50f
+
         val rectangleStart = Vector2(screenCoords).add(50f, - 50f)
-        val fontStart = Vector2(rectangleStart).add(25f, 25f)
+        val fontStart = Vector2(rectangleStart).add(rectWidth * 0.1f, rectHeight * 0.6f)
 
         drawMouseCoords(batch, font, fontStart, worldCoords)
-        drawRectangle(sr, rectangleStart)
-
+        drawRectangle(sr, rectangleStart, rectWidth, rectHeight)
     }
 
     fun drawMouseCoords(batch: SpriteBatch, font: BitmapFont, leftDown: Vector2, worldCoords: Vector2) {
         font.draw(batch, "x=${worldCoords.x} y=${worldCoords.y}", leftDown.x, leftDown.y)
     }
 
-    fun drawRectangle(sr: ShapeRenderer, leftDown: Vector2) {
-        val width = 200f
-        val height = 50f
+    fun drawRectangle(sr: ShapeRenderer, leftDown: Vector2, width: Float, height: Float) {
 
         sr.setColor(0f, 1f, 0f, 1f)
         sr.rect(leftDown.x, leftDown.y, width, height)

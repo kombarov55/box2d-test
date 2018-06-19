@@ -2,18 +2,20 @@ package com.mygdx.game
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.badlogic.gdx.math.Vector2
 import com.mygdx.game.R.world
+import com.badlogic.gdx.math.Vector2
 
 class App: ApplicationAdapter(), InputProcessor {
 
     override fun create() {
         R.init()
+        EventExec.makeSubscriptions()
 
-        Gdx.input.inputProcessor = this
+        Gdx.input.inputProcessor = InputMultiplexer(R.hud, this)
     }
 
     override fun render() {
@@ -25,18 +27,15 @@ class App: ApplicationAdapter(), InputProcessor {
         R.camera.update()
 
         val currentMillis = System.currentTimeMillis()
-        val dt = currentMillis - Common.lastFrameMillis
-        Common.lastFrameMillis = currentMillis
+        val dt = currentMillis - Vars.lastFrameMillis
+        Vars.lastFrameMillis = currentMillis
 
+        R.hud.draw()
         R.shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
         R.batch.begin()
-        UI.drawMouseInfo(R.batch, R.font, R.shapeRenderer, Vector2(Common.mousePos).apply { y = App.WINDOW_HEIGHT - y }, R.camera.unproject(Common.mousePos))
-        UI.drawFps(R.batch, R.font, Common.fpsPosition, dt)
-        if (Common.infCreatePos != null) {
-            Bodies.createBox(world, 0.5f, 0.5f, R.camera.unproject(Common.infCreatePos!!))
-        }
-
-
+//        UI.drawMouseInfo(R.batch, R.font, R.shapeRenderer, Vector2(Vars.mousePos).apply { y = Consts.WINDOW_HEIGHT - y }, R.camera.unproject(Vars.mousePos))
+        Events.frameTick.onNext(dt)
+//        UI.drawFps(R.batch, R.font, Vars.fpsPosition, dt)
         R.batch.end()
         R.shapeRenderer.end()
 
@@ -49,7 +48,7 @@ class App: ApplicationAdapter(), InputProcessor {
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        Common.mousePos.set(screenX, screenY)
+        Vars.mousePos.set(screenX, screenY)
         return true
     }
 
@@ -79,11 +78,5 @@ class App: ApplicationAdapter(), InputProcessor {
 
     override fun keyDown(keycode: Int): Boolean {
         return false
-    }
-
-
-    companion object {
-        @JvmStatic val WINDOW_WIDTH = 800
-        @JvmStatic val WINDOW_HEIGHT = 480
     }
 }
