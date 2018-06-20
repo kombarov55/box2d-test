@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.mygdx.game.R.world
 import com.badlogic.gdx.math.Vector2
 
-class App: ApplicationAdapter(), InputProcessor {
+class App: ApplicationAdapter() {
 
     override fun create() {
         R.init()
         EventExec.makeSubscriptions()
 
-        Gdx.input.inputProcessor = InputMultiplexer(R.hud, this)
+        Gdx.input.inputProcessor = InputMultiplexer(R.hud, Consts.mouseInputProcessor)
     }
 
     override fun render() {
@@ -33,50 +33,10 @@ class App: ApplicationAdapter(), InputProcessor {
         R.hud.draw()
         R.shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
         R.batch.begin()
-//        UI.drawMouseInfo(R.batch, R.font, R.shapeRenderer, Vector2(Vars.mousePos).apply { y = Consts.WINDOW_HEIGHT - y }, R.camera.unproject(Vars.mousePos))
         Events.frameTick.onNext(dt)
-//        UI.drawFps(R.batch, R.font, Vars.fpsPosition, dt)
         R.batch.end()
         R.shapeRenderer.end()
 
         R.box2DDebugRenderer.render(R.world, R.camera.combined)
-    }
-
-    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-//        Common.infCreatePos = Vector2(screenX, screenY
-        return true
-    }
-
-    override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        Vars.mousePos.set(screenX, screenY)
-        return true
-    }
-
-
-
-
-
-    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        return false
-    }
-
-    override fun keyTyped(character: Char): Boolean {
-        return false
-    }
-
-    override fun scrolled(amount: Int): Boolean {
-        return false
-    }
-
-    override fun keyUp(keycode: Int): Boolean {
-        return false
-    }
-
-    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-        return false
-    }
-
-    override fun keyDown(keycode: Int): Boolean {
-        return false
     }
 }

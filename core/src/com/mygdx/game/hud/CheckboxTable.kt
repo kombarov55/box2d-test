@@ -10,6 +10,10 @@ class CheckboxTable(skin: Skin): Table(skin) {
 
     val showFps: Button
     val showMouseInfo: Button
+    val mouseMode: CheckBox
+    val objectMode: CheckBox
+    val mouseGroup: ButtonGroup<CheckBox>
+
 
     init {
 //        debug = true
@@ -21,16 +25,26 @@ class CheckboxTable(skin: Skin): Table(skin) {
 
         defaults().expand().top().left()
 
-        showFps = TextButton("show fps", skin)
-        showMouseInfo = TextButton("show mouse info", skin)
+        showFps = TextButton("fps", skin)
+        showMouseInfo = TextButton("mouse info", skin)
+        mouseMode = CheckBox("mouse", skin)
+        objectMode = CheckBox("objects", skin)
+
+        mouseGroup = ButtonGroup(mouseMode, objectMode)
+
 
         showFps.addClickListener { Events.showFps.onNext(Unit) }
         showMouseInfo.addClickListener { Events.showMouseInfo.onNext(Unit) }
+        objectMode.addClickListener { Events.mouseModeChanged.onNext(MouseMode.OBJECT) }
+        mouseMode.addClickListener { Events.mouseModeChanged.onNext(MouseMode.MOUSE) }
 
 
         add(showFps)
         row()
         add(showMouseInfo)
+        row()
+        add(mouseMode)
+        add(objectMode)
 
     }
 

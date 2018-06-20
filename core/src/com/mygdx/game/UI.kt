@@ -1,9 +1,12 @@
 package com.mygdx.game
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
+import com.mygdx.game.hud.MouseMode
 
 object UI {
 
@@ -34,6 +37,18 @@ object UI {
 
     fun drawString(batch: SpriteBatch, font: BitmapFont, position: Vector2, text: String) {
         font.draw(batch, text, position.x, position.y)
+    }
+
+    fun setMouseInputProcessor() {
+        val imul = Gdx.input.inputProcessor as InputMultiplexer
+        imul.processors.removeIndex(imul.size() - 1)
+        imul.addProcessor(Consts.mouseInputProcessor)
+    }
+
+    fun setObjectInputProcessor() {
+        val imul = Gdx.input.inputProcessor as InputMultiplexer
+        imul.processors.removeIndex(imul.size() - 1)
+        imul.addProcessor(Consts.objectInputProcessor)
     }
 
 
