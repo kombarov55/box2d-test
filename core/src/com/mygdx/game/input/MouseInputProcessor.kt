@@ -1,17 +1,11 @@
 package com.mygdx.game.input
 
-import com.badlogic.gdx.InputProcessor
-import com.mygdx.game.Vars
-import com.mygdx.game.set
-
 
 class MouseInputProcessor: MouseMoveInputProcessor() {
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         return true
     }
-
-
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         return false

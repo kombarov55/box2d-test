@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.ui.Button
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 
 fun OrthographicCamera.unproject(v2: Vector2): Vector2 {
     val v3 = this.unproject(Vector3(v2, 0f))
